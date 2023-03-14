@@ -2,10 +2,20 @@ from tensorflow.keras.layers import *
 from tensorflow.keras.models import *
 
 """
-This code is inspired by arkanivasarkar where he uses u-nets for retinal vessel segmentation:
-https://github.com/arkanivasarkar/Retinal-Vessel-Segmentation-using-variants-of-UNET
+This code is inspired by Naomi Fridman: https://naomi-fridman.medium.com/multi-class-image-segmentation-a5cc671e647a and
+has been adapted to my project. 
 
-The code has been re-written to a 3D U-Net and modeified for my project
+The code was originally a base 2D U-Net. The code has been rewritten for my project.
+Changes made to the code:
+* 2D convolutions replaced by 3D convolutions.
+* 2D max-pooling replaced by 3D max-pooling.
+* Number of filters used in each layer is reduced. 
+* Kernel-sizes changed from 3,3 to 3,3,3 in convolutional layers (added dimension)
+* Pool-size of max-pooling changed from 2,2 to 2,2,2 in max-pooling layers (added dimension)
+* UpSampling size changed from 2,2 to 2,2,2 (added dimension)
+* Activation functions are experimented with in every conv layer for the trained models, e.g., LeakyRelu implemented instead of Relu
+* Dropout layers are experimented with for each model trained by adding/removing dropout in the encoder path
+* Batch normalization is experimented with for each model trained by adding/removing batch normalization layers
 """
 
 
@@ -25,17 +35,17 @@ def build_3Dunet(n_channels, ker_init, dropout):
     pool3 = MaxPooling3D(pool_size=(2, 2, 2))(conv3)
 
     conv4 = Conv3D(128, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(pool3)
-    conv4 = Conv3D(128, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(conv4)
     drop4 = Dropout(dropout)(conv4)
+    conv4 = Conv3D(128, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(conv4)
     pool4 = MaxPooling3D(pool_size=(2, 2, 2))(drop4)
 
     conv5 = Conv3D(256, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(pool4)
-    conv5 = Conv3D(256, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(conv5)
     drop5 = Dropout(dropout)(conv5)
+    conv5 = Conv3D(256, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(conv5)
 
     up6 = Conv3D(128, (2, 2, 2), activation='relu', padding='same', kernel_initializer=ker_init)(
         UpSampling3D(size=(2, 2, 2))(drop5))
-    merge6 = concatenate([drop4, up6])
+    merge6 = concatenate([conv4, up6])
     conv6 = Conv3D(128, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(merge6)
     conv6 = Conv3D(128, (3, 3, 3), activation='relu', padding='same', kernel_initializer=ker_init)(conv6)
 

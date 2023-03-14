@@ -4,6 +4,13 @@ from tensorflow.keras.models import *
 """
 This code is inspired by Naomi Fridman: https://naomi-fridman.medium.com/multi-class-image-segmentation-a5cc671e647a and
 has been adapted to my project. 
+
+Changes made to the code:
+* Number of filters used in each layer is decreased to reduce the size of the model
+* The structure is modified
+* Activation functions are experimented with in every convolutional layer, e.g., LeakyRelu implemented instead of Relu
+* Dropout layers are experimented with for each model trained by adding/removing dropout in the encoder path
+* Batch normalization is experimented with for each model trained by adding/removing batch normalization layers
 """
 def build_unet(n_channels, ker_init, dropout):
     inputs = Input((128, 128, n_channels))

@@ -6,6 +6,7 @@ import os
 import cv2
 
 PATH = 'C:/Users/VegardEikenes/Desktop/Bachelor/Data/BraTS2021_TrainingData/'
+PATH3D = 'C:/Users/VegardEikenes/Desktop/Bachelor/Data/3Ddata/'
 VOLUME_SLICES = 100
 VOLUME_START_AT = 22
 
@@ -16,6 +17,8 @@ with inspiration from: https://stanford.edu/~shervine/blog/keras-how-to-generate
 
 The generator has been modified to include an increased number of modalities, and can easily be
 adapted. 
+Changes made include: 
+* __data_generation function is changed by adding an increased number of modalities for experimentation.
 """
 
 
@@ -83,10 +86,11 @@ class DataGenerator2D(keras.utils.Sequence):
 
 
 """
-This 3D generator is inspired from 
+This 3D generator is inspired from the same sources as the datagenerator above. 
 https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly
+https://www.kaggle.com/code/rastislav/3d-mri-brain-tumor-segmentation-u-net
 
-The generator is written to generate 3D volumes from NIfTI files on the fly while training. The
+The generator is adapted to generate 3D (128x128x128) volumes instead of 2D volumes on the fly while training. The
 number of modalities to include can easily be adapted. The generator does however only accept batch
 sizes of 1. This is not an issue for my project as increasing the batch size to 2 would 
 cause memory exhaustion. 

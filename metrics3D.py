@@ -2,8 +2,10 @@ import keras.backend as K
 
 """
 This code is originally written by Rastislav: https://www.kaggle.com/code/rastislav/3d-mri-brain-tumor-segmentation-u-net
-with inspiration from https://github.com/keras-team/keras/issues/9395. These metrics have been modified to work on 3D 
-volumes. 
+with inspiration from https://github.com/keras-team/keras/issues/9395. 
+These metrics have been modified to work on 3D volumes.
+Changes made to the code:
+* Added dimension to every function.
 """
 
 

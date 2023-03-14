@@ -3,6 +3,7 @@ import keras.backend as K
 """
 This code is originally written by Rastislav: https://www.kaggle.com/code/rastislav/3d-mri-brain-tumor-segmentation-u-net
 with inspiration from https://github.com/keras-team/keras/issues/9395
+These metrics are used as is for the evaluation of the 2D networks trained. 
 """
 def dice_coef(y_true, y_pred, smooth=1.0):
     class_num = 4

@@ -1,21 +1,64 @@
 from tensorflow.keras.layers import *
 from tensorflow.keras.models import *
-from attention_blocks import *
+
+"""
+This code is originally written by arkanivasarkar where he uses u-nets for retinal vessel segmentation:
+https://github.com/arkanivasarkar/Retinal-Vessel-Segmentation-using-variants-of-UNET
+This code has been adapted to my project.
+
+Changes made to the code include:
+* Softmax implemented instead of sigmoid
+* Activation function is experimented with, e.g., LeakyRelu implemented instead of relu.
+* Batch normalization is experimented with and without. 
+"""
+def gatingsignal(input, out_size, batchnorm=False):
+    x = Conv2D(out_size, (1, 1), padding='same')(input)
+    if batchnorm:
+        x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    return x
+
+def attention_block(x, gating, inter_shape):
+    shape_x = K.int_shape(x)
+    shape_g = K.int_shape(gating)
+    theta_x = Conv2D(inter_shape, (2, 2), strides=(2, 2), kernel_initializer='he_normal', padding='same')(x)
+    shape_theta_x = K.int_shape(theta_x)
+    phi_g = Conv2D(inter_shape, (1, 1), kernel_initializer='he_normal', padding='same')(gating)
+    upsample_g = Conv2DTranspose(inter_shape, (3, 3), strides=(shape_theta_x[1] // shape_g[1], shape_theta_x[2] // shape_g[2]), kernel_initializer='he_normal', padding='same')(phi_g)
+    concat_xg = add([upsample_g, theta_x])
+    act_xg = Activation('relu')(concat_xg)
+    psi = Conv2D(1, (1, 1), kernel_initializer='he_normal', padding='same')(act_xg)
+    softmax_xg = Activation('softmax')(psi)
+    shape_softmax = K.int_shape(softmax_xg)
+    upsample_psi = UpSampling2D(size=(shape_x[1] // shape_softmax[1], shape_x[2] // shape_softmax[2]))(softmax_xg)
+    upsample_psi = Lambda(lambda x, repnum: K.repeat_elements(x, repnum, axis=3), arguments={'repnum': shape_x[3]})(upsample_psi)
+    y = multiply([upsample_psi, x])
+    result = Conv2D(shape_x[3], (1, 1), kernel_initializer='he_normal', padding='same')(y)
+    attenblock = BatchNormalization()(result)
+    return attenblock
+
 
 """
 This code is inspired by arkanivasarkar where he uses u-nets for retinal vessel segmentation:
 https://github.com/arkanivasarkar/Retinal-Vessel-Segmentation-using-variants-of-UNET
 
-The code has been re-written and adapted for my project and for brain tumor segmentation
+The code has been re-written and adapted for my project and for brain tumor segmentation. The functions above are used in
+the decoder blocks. Changes made in the models trained:
+
+* Softmax implemented instead of sigmoid in the final layer. 
+* Dropout and batch-normalization is experimented with in the encoder path
+* Number of channels used are changed. 
+* Activation function used is experimented with in every convolutional layer. e.g., LeakyRelu implemented instead of relu. 
+* The general structure of the code is changed
 """
 
-def build_attention_unet(n_channels, ker_init, dropout, batchnorm=True):
+def build_attention_unet(n_channels, ker_init, dropout, batchnorm=False):
 
     inputs = Input((128, 128, n_channels))
 
     # Downsampling layers
-    conv1 = Conv2D(32, 3, activation='relu', padding='same', kernel_initializer=ker_init)(inputs)
-    conv1 = Conv2D(32, 3, activation='relu', padding='same', kernel_initializer=ker_init)(conv1)
+    conv1 = Conv2D(16, 3, activation='relu', padding='same', kernel_initializer=ker_init)(inputs)
+    conv1 = Conv2D(16, 3, activation='relu', padding='same', kernel_initializer=ker_init)(conv1)
     pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
 
     conv2 = Conv2D(32, 3, activation='relu', padding='same', kernel_initializer=ker_init)(pool1)

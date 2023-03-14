@@ -6,7 +6,14 @@ from attention_blocks import *
 This code is inspired by arkanivasarkar where he uses u-nets for retinal vessel segmentation:
 https://github.com/arkanivasarkar/Retinal-Vessel-Segmentation-using-variants-of-UNET
 
-The code has been re-written and adapted for my project and for brain tumor segmentation
+The code has been re-written and adapted for my project and for brain tumor segmentation. 
+Changes made in the models trained:
+
+* Softmax implemented instead of sigmoid in the final layer. 
+* Dropout and batch-normalization is experimented with in encoder path
+* Number of channels used are changed
+* Activation function used is experimented with in every convolutional layer. e.g., LeakyRelu implemented instead of relu. 
+* The overall structure of the code is changed
 """
 
 
