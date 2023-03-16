@@ -9,8 +9,8 @@ Changes made to the code:
 * Number of filters used in each layer is decreased to reduce the size of the model
 * The structure is modified
 * Activation functions are experimented with in every convolutional layer, e.g., LeakyRelu implemented instead of Relu
-* Dropout layers are experimented with for each model trained by adding/removing dropout in the encoder path
-* Batch normalization is experimented with for each model trained by adding/removing batch normalization layers
+* Dropout layers are experimented with for each model trained by adding/removing dropout in every block
+* Batch normalization is experimented with for each model trained by adding/removing batch normalization in every block
 """
 def build_unet(n_channels, ker_init, dropout):
     inputs = Input((128, 128, n_channels))

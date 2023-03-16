@@ -14,8 +14,8 @@ Changes made to the code:
 * Pool-size of max-pooling changed from 2,2 to 2,2,2 in max-pooling layers (added dimension)
 * UpSampling size changed from 2,2 to 2,2,2 (added dimension)
 * Activation functions are experimented with in every conv layer for the trained models, e.g., LeakyRelu implemented instead of Relu
-* Dropout layers are experimented with for each model trained by adding/removing dropout in the encoder path
-* Batch normalization is experimented with for each model trained by adding/removing batch normalization layers
+* Dropout is experimented with for by adding/removing dropout in every block
+* Batch normalization is experimented with by adding/removing batch normalization in every block
 """
 
 

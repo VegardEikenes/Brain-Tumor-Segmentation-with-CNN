@@ -8,9 +8,10 @@ https://github.com/arkanivasarkar/Retinal-Vessel-Segmentation-using-variants-of-
 Changes made in the models trained:
 
 * Softmax implemented instead of sigmoid in the final layer. 
-* Dropout and batch-normalization is experimented with in encoder path
+* Dropout is experimented with by adding/removing Dropout in every block
+* Batch-normalization is experimented with by adding/removing batch normalization in every block
 * Number of channels used are changed
-* Activation function used is experimented with. e.g., LeakyRelu implemented instead of relu. 
+* Activation function used is experimented with in every conv layer. e.g., LeakyRelu implemented instead of relu. 
 * The general structure of the code is changed
 """
 def build_res_unet(n_channels, ker_init):

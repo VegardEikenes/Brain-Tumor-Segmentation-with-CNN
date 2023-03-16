@@ -1,5 +1,6 @@
 from tensorflow.keras.layers import *
 from tensorflow.keras.models import *
+from tensorflow.keras import backend as K
 
 """
 This code is originally written by arkanivasarkar where he uses u-nets for retinal vessel segmentation:
@@ -46,7 +47,8 @@ The code has been re-written and adapted for my project and for brain tumor segm
 the decoder blocks. Changes made in the models trained:
 
 * Softmax implemented instead of sigmoid in the final layer. 
-* Dropout and batch-normalization is experimented with in the encoder path
+* Dropout is experimented with by adding/removing Dropout in every block
+* Batch-normalization is experimented with by adding/removing batch-normalization in every block
 * Number of channels used are changed. 
 * Activation function used is experimented with in every convolutional layer. e.g., LeakyRelu implemented instead of relu. 
 * The general structure of the code is changed
