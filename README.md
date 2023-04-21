@@ -45,6 +45,3 @@ An example of model predictions can be viewed in the image below.
 
 ## Contact
 For any questions, comments, or concerns, please feel free to reach out to the repository owner. 
-
-
-## Acknowledgements
