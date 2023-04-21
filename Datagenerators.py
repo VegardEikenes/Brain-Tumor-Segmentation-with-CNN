@@ -75,7 +75,7 @@ class DataGenerator2D(keras.utils.Sequence):
                 X[j + VOLUME_SLICES * c, :, :, 0] = cv2.resize(flair[:, :, j + VOLUME_START_AT], self.dim)
                 X[j + VOLUME_SLICES * c, :, :, 1] = cv2.resize(t1ce[:, :, j + VOLUME_START_AT], self.dim)
                 X[j + VOLUME_SLICES * c, :, :, 2] = cv2.resize(t2[:, :, j + VOLUME_START_AT], self.dim)
-                #                 X[j +VOLUME_SLICES*c,:,:,2] = cv2.resize(t1[:,:,j+VOLUME_START_AT], dim)
+                #                 X[j +VOLUME_SLICES*c,:,:,3] = cv2.resize(t1[:,:,j+VOLUME_START_AT], dim)
 
                 y[j + VOLUME_SLICES * c] = seg[:, :, j + VOLUME_START_AT]
 
