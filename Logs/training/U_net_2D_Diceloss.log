@@ -1,0 +1,2 @@
+epoch,accuracy,dice_coef,dice_coef_edema,dice_coef_enhancing,dice_coef_necrotic,loss,mean_io_u
+2,0.9839954376220703,0.2548762559890747,0.0,0.0,0.0,0.010395845398306847,0.9798226356506348
