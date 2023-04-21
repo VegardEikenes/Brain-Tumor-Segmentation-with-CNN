@@ -12,7 +12,7 @@ This code has been adapted to my project.
 Changes made to the code include:
 * Softmax implemented instead of sigmoid
 * Activation function is experimented with, e.g., LeakyRelu implemented instead of relu.
-* Batch normalization is experimented with and without. 
+* Batch normalization and instance normalization is experimented with and without. 
 """
 def gatingsignal(inp, out_size, batchnorm=True):
     x = Conv2D(out_size, (1, 1), padding='same')(inp)
@@ -51,7 +51,7 @@ Changes made in the models trained:
 
 * Softmax implemented instead of sigmoid in the final layer. 
 * Dropout is experimented with in by adding/removing dropout in every block
-* Batch-normalization is experimented with in by adding/removing Batch-normalization in every block
+* Batch-normalization and instance normalization is experimented with in by adding/removing it in every block
 * Number of channels used are changed
 * Activation function used is experimented with in every convolutional layer. e.g., LeakyRelu implemented instead of relu. 
 * The overall structure of the code is changed

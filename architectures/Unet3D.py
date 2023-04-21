@@ -16,7 +16,7 @@ Changes made to the code:
 * UpSampling size changed from 2,2 to 2,2,2 (added dimension)
 * Activation functions are experimented with in every conv layer for the trained models, e.g., LeakyRelu implemented instead of Relu
 * Dropout is experimented with for by adding/removing dropout in every block
-* Batch normalization is experimented with by adding/removing batch normalization in every block
+* Batch normalization and instance normalization is experimented with by adding/removing it in every block
 """
 
 

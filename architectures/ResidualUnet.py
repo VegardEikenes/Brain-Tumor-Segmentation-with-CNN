@@ -11,7 +11,7 @@ Changes made in the models trained:
 
 * Softmax implemented instead of sigmoid in the final layer. 
 * Dropout is experimented with by adding/removing Dropout in every block
-* Batch-normalization is experimented with by adding/removing batch normalization in every block
+* Batch-normalization and instance normalization is experimented with by adding/removing it in every block
 * Number of channels used are changed
 * Activation function used is experimented with in every conv layer. e.g., LeakyRelu implemented instead of relu. 
 * The general structure of the code is changed
